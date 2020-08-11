@@ -11,14 +11,14 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class RecipesDto extends RecipesPersistentDto {
+public class SavedRecipesDto extends SavedRecipesPersistentDto {
 
-	private static final long serialVersionUID = -7920820738072602272L;
+	private static final long serialVersionUID = 1257093394295651957L;
 
 	@NotNull
 	private String id;
 
-	public RecipesDto() {
+	public SavedRecipesDto() {
 		super();
 		this.id = UUID.randomUUID().toString();
 	}

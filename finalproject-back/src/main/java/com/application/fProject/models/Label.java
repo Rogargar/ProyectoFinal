@@ -18,11 +18,11 @@ import lombok.ToString;
 @Table(name = "label")
 public class Label {
 
-	@Column(name="id")
+	@Column(name = "id")
 	@Id
 	private String id;
-	
-	@Column(name="name")
+
+	@Column(name = "name")
 	private String name;
-	
+
 }

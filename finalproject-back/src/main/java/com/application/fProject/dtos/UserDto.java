@@ -6,15 +6,11 @@ import com.sun.istack.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@Getter
-@Setter
 public class UserDto extends UserPersistentDto {
 
 	private static final long serialVersionUID = -1103409295788306897L;
@@ -29,6 +25,14 @@ public class UserDto extends UserPersistentDto {
 
 	public void generateId() {
 		this.id = UUID.randomUUID().toString();
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

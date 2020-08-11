@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.application.fProject.dtos.UserDto;
 import com.application.fProject.dtos.UserPersistentDto;
+import com.application.fProject.exceptions.BadRequestException;
 import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.models.User;
 import com.application.fProject.repositories.UserRepository;
@@ -27,10 +28,11 @@ public class UserServiceImpl implements UserService {
 	private final ModelMapper modelMapper;
 
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
+	public UserServiceImpl(UserRepository userRepository) {
 		super();
+		this.modelMapper = new ModelMapper();
 		this.userRepository = userRepository;
-		this.modelMapper = modelMapper;
+		// this.modelMapper = modelMapper;
 	}
 
 	@Override
@@ -55,21 +57,42 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto create(UserPersistentDto user) {
+	@Transactional
+	@Cacheable(cacheNames = CACHE)
+	public UserDto create(UserPersistentDto user) throws BadRequestException {
 
-		return null;
+		Optional<User> checkUser = userRepository.findByEmail(user.getEmail());
+
+		if (checkUser.isPresent()) {
+			throw new BadRequestException("user.email.repeated");
+		}
+
+		return modelMapper.map(userRepository.save(modelMapper.map(user, User.class)), UserDto.class);
 	}
 
 	@Override
-	public UserDto update(String id, UserPersistentDto user) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	@Cacheable(cacheNames = CACHE)
+	public UserDto update(String id, UserPersistentDto user) throws BadRequestException, ObjectNotFoundException {
+		UserDto existingUser = findById(id);
+
+		Optional<User> checkUser = userRepository.findByEmail(user.getEmail());
+		if (!existingUser.getEmail().equalsIgnoreCase(user.getEmail())) {
+			if (checkUser.isPresent()) {
+				throw new BadRequestException("user.email.repeated");
+			}
+		}
+
+		modelMapper.map(user, existingUser);
+
+		return modelMapper.map(userRepository.save(modelMapper.map(user, User.class)), UserDto.class);
 	}
 
 	@Override
-	public void remove(String id) {
-		// TODO Auto-generated method stub
-
+	@Transactional
+	@Cacheable(cacheNames = CACHE)
+	public void remove(String id) throws ObjectNotFoundException {
+		userRepository.deleteById(findById(id).getId());
 	}
 
 }
