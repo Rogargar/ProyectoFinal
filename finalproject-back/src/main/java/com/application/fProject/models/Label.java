@@ -15,26 +15,14 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "label")
+public class Label {
 
-	@Column(name = "id")
+	@Column(name="id")
 	@Id
 	private String id;
-
-	@Column(name = "name")
+	
+	@Column(name="name")
 	private String name;
-
-	@Column(name = "surnames")
-	private String surnames;
-
-	@Column(name = "email", unique = true)
-	private String email;
-
-	@Column(name = "pass")
-	private String pass;
-
-	@Column(name = "rol")
-	private String rol;
-
+	
 }

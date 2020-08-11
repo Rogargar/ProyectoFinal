@@ -6,23 +6,19 @@ import com.sun.istack.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@Getter
-@Setter
-public class UserDto extends UserPersistentDto {
+public class RecipesDto extends RecipesPersistentDto {
 
-	private static final long serialVersionUID = -1103409295788306897L;
+	private static final long serialVersionUID = -7920820738072602272L;
 
 	@NotNull
 	private String id;
 
-	public UserDto() {
+	public RecipesDto() {
 		super();
 		this.id = UUID.randomUUID().toString();
 	}
@@ -30,5 +26,4 @@ public class UserDto extends UserPersistentDto {
 	public void generateId() {
 		this.id = UUID.randomUUID().toString();
 	}
-
 }
