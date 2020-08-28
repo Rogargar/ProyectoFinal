@@ -1,5 +1,8 @@
 package com.application.fProject.services;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,6 +59,22 @@ public class UserServiceImpl implements UserService {
 		return modelMapper.map(user.get(), UserDto.class);
 	}
 
+	private static String getMD5(String input) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] messageDigest = md.digest(input.getBytes());
+			BigInteger number = new BigInteger(1, messageDigest);
+			String hashtext = number.toString(16);
+
+			while (hashtext.length() < 32) {
+				hashtext = "0" + hashtext;
+			}
+			return hashtext;
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	@Override
 	@Transactional
 	@Cacheable(cacheNames = CACHE)
@@ -63,9 +82,13 @@ public class UserServiceImpl implements UserService {
 
 		Optional<User> checkUser = userRepository.findByEmail(user.getEmail());
 
+		user.setPass(getMD5(user.getPass()));
+		System.out.println(user);
 		if (checkUser.isPresent()) {
 			throw new BadRequestException("user.email.repeated");
 		}
+
+		System.out.println(modelMapper.map(user, UserDto.class));
 
 		return modelMapper.map(userRepository.save(modelMapper.map(user, User.class)), UserDto.class);
 	}
@@ -77,6 +100,9 @@ public class UserServiceImpl implements UserService {
 		UserDto existingUser = findById(id);
 
 		Optional<User> checkUser = userRepository.findByEmail(user.getEmail());
+
+		checkUser.get().setPass(getMD5(checkUser.get().getPass()));
+
 		if (!existingUser.getEmail().equalsIgnoreCase(user.getEmail())) {
 			if (checkUser.isPresent()) {
 				throw new BadRequestException("user.email.repeated");
