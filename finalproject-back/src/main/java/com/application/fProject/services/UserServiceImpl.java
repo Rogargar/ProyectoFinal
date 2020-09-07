@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -77,31 +78,29 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	@Cacheable(cacheNames = CACHE)
+	@CacheEvict(cacheNames = CACHE, allEntries = true)
 	public UserDto create(UserPersistentDto user) throws BadRequestException {
 
 		Optional<User> checkUser = userRepository.findByEmail(user.getEmail());
 
 		user.setPass(getMD5(user.getPass()));
-		System.out.println(user);
+
 		if (checkUser.isPresent()) {
 			throw new BadRequestException("user.email.repeated");
 		}
-
-		System.out.println(modelMapper.map(user, UserDto.class));
 
 		return modelMapper.map(userRepository.save(modelMapper.map(user, User.class)), UserDto.class);
 	}
 
 	@Override
 	@Transactional
-	@Cacheable(cacheNames = CACHE)
+	@CacheEvict(cacheNames = CACHE, allEntries = true)
 	public UserDto update(String id, UserPersistentDto user) throws BadRequestException, ObjectNotFoundException {
 		UserDto existingUser = findById(id);
 
 		Optional<User> checkUser = userRepository.findByEmail(user.getEmail());
 
-		checkUser.get().setPass(getMD5(checkUser.get().getPass()));
+		user.setPass(getMD5(user.getPass()));
 
 		if (!existingUser.getEmail().equalsIgnoreCase(user.getEmail())) {
 			if (checkUser.isPresent()) {
@@ -111,12 +110,12 @@ public class UserServiceImpl implements UserService {
 
 		modelMapper.map(user, existingUser);
 
-		return modelMapper.map(userRepository.save(modelMapper.map(user, User.class)), UserDto.class);
+		return modelMapper.map(userRepository.save(modelMapper.map(existingUser, User.class)), UserDto.class);
 	}
 
 	@Override
 	@Transactional
-	@Cacheable(cacheNames = CACHE)
+	@CacheEvict(cacheNames = CACHE, allEntries = true)
 	public void remove(String id) throws ObjectNotFoundException {
 		userRepository.deleteById(findById(id).getId());
 	}

@@ -1,16 +1,17 @@
 package com.application.fProject.dtos;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class MenuPersistentDto implements Serializable {
+public class MenuPersistentDto extends ElementPersistDto {
 
 	private static final long serialVersionUID = 5117293199549470219L;
 
