@@ -27,8 +27,9 @@ public class Recipes extends Element {
 
 	private static final long serialVersionUID = 6766929063510637268L;
 
-	@Column(name = "name")
-	private String name;
+	/*
+	 * @Column(name = "name") private String name;
+	 */
 
 	@Column(name = "img")
 	private Blob img;
