@@ -9,12 +9,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class SavedRecipesPersistentDto extends ElementPersistDto {
+public class SavedRecipePersistentDto extends ElementPersistDto {
 
 	private static final long serialVersionUID = -6272263316631833987L;
 
 	private UserDto user;
 
-	private RecipesDto recipes;
+	private RecipeDto recipes;
 
 }

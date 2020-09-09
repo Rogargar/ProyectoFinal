@@ -15,13 +15,13 @@ public class MenuPersistentDto extends ElementPersistDto {
 
 	private static final long serialVersionUID = 5117293199549470219L;
 
-	private SavedRecipesDto savedRecipes;
+	private SavedRecipeDto savedRecipes;
 
 	private Date date;
 
 	private String menu;
 
-	public SavedRecipesDto getSavedRecipes() {
+	public SavedRecipeDto getSavedRecipes() {
 		return savedRecipes;
 	}
 

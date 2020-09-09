@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class RecipesPersistentDto extends ElementPersistDto {
+public class RecipePersistentDto extends ElementPersistDto {
 
 	private static final long serialVersionUID = -421678120591597533L;
 

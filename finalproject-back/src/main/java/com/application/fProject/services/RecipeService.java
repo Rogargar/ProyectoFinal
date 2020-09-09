@@ -2,20 +2,20 @@ package com.application.fProject.services;
 
 import java.util.List;
 
-import com.application.fProject.dtos.RecipesDto;
-import com.application.fProject.dtos.RecipesPersistentDto;
+import com.application.fProject.dtos.RecipeDto;
+import com.application.fProject.dtos.RecipePersistentDto;
 import com.application.fProject.exceptions.BadRequestException;
 import com.application.fProject.exceptions.ObjectNotFoundException;
 
 public interface RecipeService {
 
-	List<RecipesDto> findAll();
+	List<RecipeDto> findAll();
 
-	RecipesDto findById(String id) throws ObjectNotFoundException;
+	RecipeDto findById(String id) throws ObjectNotFoundException;
 
-	RecipesDto create(RecipesPersistentDto recipes) throws BadRequestException;
+	RecipeDto create(RecipePersistentDto recipe) throws BadRequestException, ObjectNotFoundException;
 
-	RecipesDto update(String id, RecipesPersistentDto recipes) throws BadRequestException, ObjectNotFoundException;
+	RecipeDto update(String id, RecipePersistentDto recipe) throws BadRequestException, ObjectNotFoundException;
 
 	void remove(String id) throws ObjectNotFoundException;
 

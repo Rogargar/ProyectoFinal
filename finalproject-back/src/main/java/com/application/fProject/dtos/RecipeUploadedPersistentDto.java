@@ -15,7 +15,7 @@ public class RecipeUploadedPersistentDto extends ElementPersistDto {
 
 	private UserDto owner;
 
-	private RecipesDto recipes;
+	private RecipeDto recipes;
 
 	private String state;
 

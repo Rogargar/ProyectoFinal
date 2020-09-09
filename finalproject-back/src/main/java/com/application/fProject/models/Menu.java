@@ -27,7 +27,7 @@ public class Menu extends Element {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_savedRecipes", nullable = false, foreignKey = @ForeignKey(name = "FK_menu_savedRecipe"))
-	private SavedRecipes savedRecipes;
+	private SavedRecipe savedRecipes;
 
 	@Column(name = "date")
 	private Date date;

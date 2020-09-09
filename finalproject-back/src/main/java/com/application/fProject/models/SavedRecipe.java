@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Entity
 @Table(name = "saved_recipes")
-public class SavedRecipes extends Element {
+public class SavedRecipe extends Element {
 
 	private static final long serialVersionUID = -5578975813583858244L;
 
@@ -28,6 +28,6 @@ public class SavedRecipes extends Element {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_recipes", nullable = false, foreignKey = @ForeignKey(name = "FK_savedRecipe_recpes"))
-	private Recipes recipes;
+	private Recipe recipes;
 
 }

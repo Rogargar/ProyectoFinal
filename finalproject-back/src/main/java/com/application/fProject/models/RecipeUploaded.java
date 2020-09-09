@@ -29,7 +29,7 @@ public class RecipeUploaded extends Element {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_recipes", nullable = false, foreignKey = @ForeignKey(name = "FK_recipeUploaded_recpes"))
-	private Recipes recipes;
+	private Recipe recipes;
 
 	@Column(name = "state")
 	private String state;

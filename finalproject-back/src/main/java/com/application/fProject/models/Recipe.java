@@ -1,15 +1,15 @@
 package com.application.fProject.models;
 
 import java.sql.Blob;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -23,13 +23,9 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Entity
 @Table(name = "recipes")
-public class Recipes extends Element {
+public class Recipe extends Element {
 
 	private static final long serialVersionUID = 6766929063510637268L;
-
-	/*
-	 * @Column(name = "name") private String name;
-	 */
 
 	@Column(name = "img")
 	private Blob img;
@@ -52,9 +48,10 @@ public class Recipes extends Element {
 	@Column(name = "suggestions")
 	private String suggestions;
 
-	@ManyToMany
+	@OneToMany
+	// (cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
 	@JoinColumn(name = "id_label", nullable = false, foreignKey = @ForeignKey(name = "FK_recipes_label"))
-	private Set<Label> label;
+	private List<Label> label;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_owner", nullable = false, foreignKey = @ForeignKey(name = "FK_recipes_owner"))
