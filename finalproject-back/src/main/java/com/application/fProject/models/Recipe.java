@@ -8,8 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -48,7 +48,8 @@ public class Recipe extends Element {
 	@Column(name = "suggestions")
 	private String suggestions;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	// @OneToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_recipe", nullable = false, foreignKey = @ForeignKey(name = "FK_recipes_label"))
 	private List<Label> label;
 

@@ -5,13 +5,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.application.fProject.models.Recipe;
+import com.application.fProject.models.Label;
 
 @Repository
-public interface RecipeRepository extends JpaRepository<Recipe, String> {
+public interface LabelRepository extends JpaRepository<Label, String> {
 
 	@Modifying
-	@Query(value = "truncate table recipes cascade", nativeQuery = true)
+	@Query(value = "truncate table label cascade", nativeQuery = true)
 	void truncateTable();
 
 }

@@ -42,7 +42,6 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
-
 	@Transactional
 	@Cacheable(CACHE)
 	public List<RecipeDto> findAll() {

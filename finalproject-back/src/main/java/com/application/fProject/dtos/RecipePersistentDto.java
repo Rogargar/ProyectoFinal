@@ -24,7 +24,7 @@ public class RecipePersistentDto extends ElementPersistDto {
 
 	private String ingredients;
 
-	private List<LabelPersistentDto> label;
+	private List<LabelDto> label;
 
 	private String preparation;
 
