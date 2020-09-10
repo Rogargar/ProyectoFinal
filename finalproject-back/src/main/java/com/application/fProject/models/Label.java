@@ -1,6 +1,5 @@
 package com.application.fProject.models;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -18,8 +17,4 @@ import lombok.ToString;
 public class Label extends Element {
 
 	private static final long serialVersionUID = -4369327130482767629L;
-
-	@Column(name = "name")
-	private String name;
-
 }

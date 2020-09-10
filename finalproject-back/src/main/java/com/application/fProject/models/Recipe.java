@@ -48,9 +48,8 @@ public class Recipe extends Element {
 	@Column(name = "suggestions")
 	private String suggestions;
 
-	@OneToMany
-	// (cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
-	@JoinColumn(name = "id_label", nullable = false, foreignKey = @ForeignKey(name = "FK_recipes_label"))
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_recipe", nullable = false, foreignKey = @ForeignKey(name = "FK_recipes_label"))
 	private List<Label> label;
 
 	@ManyToOne(fetch = FetchType.LAZY)

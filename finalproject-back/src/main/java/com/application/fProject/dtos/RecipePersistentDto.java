@@ -1,6 +1,7 @@
 package com.application.fProject.dtos;
 
 import java.sql.Blob;
+import java.util.List;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,7 +24,7 @@ public class RecipePersistentDto extends ElementPersistDto {
 
 	private String ingredients;
 
-	private LabelDto label;
+	private List<LabelPersistentDto> label;
 
 	private String preparation;
 

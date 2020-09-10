@@ -19,10 +19,6 @@ public class User extends Element {
 
 	private static final long serialVersionUID = -7928136832993275046L;
 
-	/*
-	 * @Column(name = "name") private String name;
-	 */
-
 	@Column(name = "surnames")
 	private String surnames;
 
