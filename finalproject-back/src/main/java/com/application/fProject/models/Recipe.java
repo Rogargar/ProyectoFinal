@@ -47,8 +47,10 @@ public class Recipe extends Element {
 
 	@Column(name = "suggestions")
 	private String suggestions;
+	
+	@Column(name = "state")
+	private String state;
 
-	// @OneToMany(fetch = FetchType.LAZY)
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_recipe", nullable = false, foreignKey = @ForeignKey(name = "FK_recipes_label"))
 	private List<Label> label;

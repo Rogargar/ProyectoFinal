@@ -34,6 +34,8 @@ public class RecipePersistentDto extends ElementPersistDto {
 
 	private String time;
 
+	private String state;
+
 	private UserDto owner;
 
 }
