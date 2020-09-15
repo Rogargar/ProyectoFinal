@@ -13,7 +13,7 @@ public interface MenuService {
 
 	MenuDto findById(String id) throws ObjectNotFoundException;
 
-	MenuDto create(MenuPersistentDto menu) throws BadRequestException;
+	MenuDto create(MenuPersistentDto menu) throws BadRequestException, ObjectNotFoundException;
 
 	MenuDto update(String id, MenuPersistentDto menu) throws BadRequestException, ObjectNotFoundException;
 

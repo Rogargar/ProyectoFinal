@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.application.fProject.dtos.UserDto;
@@ -41,6 +42,12 @@ public class UserController {
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDto> findById(@PathVariable("id") String id) throws ObjectNotFoundException {
 		return ResponseEntity.ok(userService.findById(id));
+	}
+
+	@GetMapping("/emailPass")
+	public String trueEmailAndPass(@RequestParam(value = "email", required = true) String email,
+			@RequestParam(value = "pass", required = true) String pass) {
+		return userService.findByEmailAndPass(email, pass);
 	}
 
 	@PostMapping

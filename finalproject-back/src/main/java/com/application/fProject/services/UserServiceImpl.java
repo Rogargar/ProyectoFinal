@@ -120,4 +120,22 @@ public class UserServiceImpl implements UserService {
 		userRepository.deleteById(findById(id).getId());
 	}
 
+	@Override
+	public String findByEmailAndPass(String email, String passwor) {
+		Optional<User> checkUser = userRepository.findByEmail(email);
+
+		String pass = getMD5(passwor);
+
+		if (!checkUser.isPresent()) {
+			return "-1";
+		} else {
+			String passTrue = checkUser.get().getPass();
+			if (passTrue.compareTo(pass) == 0) {
+				return checkUser.get().getId();
+			} else {
+				return "-1";
+			}
+		}
+	}
+
 }
