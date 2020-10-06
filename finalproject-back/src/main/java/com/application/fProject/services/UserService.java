@@ -13,7 +13,9 @@ public interface UserService {
 
 	UserDto findById(String id) throws ObjectNotFoundException;
 
-	String findByEmailAndPass(String email, String passwor);
+	String findByEmailAndPass(UserPersistentDto user);
+
+	UserDto findByEmail(String email);
 
 	UserDto create(UserPersistentDto user) throws BadRequestException;
 

@@ -121,21 +121,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String findByEmailAndPass(String email, String passwor) {
-		Optional<User> checkUser = userRepository.findByEmail(email);
-
-		String pass = getMD5(passwor);
+	@Transactional
+	@CacheEvict(cacheNames = CACHE, allEntries = true)
+	public String findByEmailAndPass(UserPersistentDto user) {
+		Optional<User> checkUser = userRepository.findByEmail(user.getEmail());
 
 		if (!checkUser.isPresent()) {
 			return "-1";
 		} else {
 			String passTrue = checkUser.get().getPass();
-			if (passTrue.compareTo(pass) == 0) {
-				return checkUser.get().getId();
+			if (passTrue.compareTo(user.getPass()) == 0) {
+				return "1";
 			} else {
-				return "-1";
+				return "-2";
 			}
 		}
+	}
+
+	@Override
+	@Transactional
+	@CacheEvict(cacheNames = CACHE, allEntries = true)
+	public UserDto findByEmail(String email) {
+		Optional<User> checkUser = userRepository.findByEmail(email);
+
+		return modelMapper.map(checkUser.get(), UserDto.class);
 	}
 
 }
