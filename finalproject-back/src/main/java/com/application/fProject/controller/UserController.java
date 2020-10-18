@@ -49,7 +49,7 @@ public class UserController {
 		return userService.findByEmailAndPass(user);
 	}
 
-	@GetMapping("/email/{email}")
+    @GetMapping("/email/{email}")
 	public ResponseEntity<UserDto> findEmail(@PathVariable("email") String email) {
 		return ResponseEntity.ok(userService.findByEmail(email));
 	}
