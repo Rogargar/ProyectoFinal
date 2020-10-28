@@ -1,6 +1,7 @@
 package com.application.fProject.dtos;
 
 import java.sql.Blob;
+import java.sql.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -37,5 +38,7 @@ public class RecipePersistentDto extends ElementPersistDto {
 	private String state;
 
 	private UserDto owner;
+
+	private Date publicationDate;
 
 }

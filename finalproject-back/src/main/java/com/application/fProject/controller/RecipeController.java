@@ -42,6 +42,11 @@ public class RecipeController {
 		return ResponseEntity.ok(recipeService.findById(id));
 	}
 
+	@GetMapping("/label/{id}")
+	public ResponseEntity<List<RecipeDto>> findByIdLabel(@PathVariable("id") String id) throws ObjectNotFoundException {
+		return ResponseEntity.ok(recipeService.findByIdLabel(id));
+	}
+
 	@PostMapping
 	public ResponseEntity<RecipeDto> create(@Valid @RequestBody RecipePersistentDto recipe)
 			throws BadRequestException, ObjectNotFoundException {
@@ -50,8 +55,7 @@ public class RecipeController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<RecipeDto> update(@PathVariable("id") String id,
-			@Valid @RequestBody RecipePersistentDto recipe)
-			throws BadRequestException, ObjectNotFoundException {
+			@Valid @RequestBody RecipePersistentDto recipe) throws BadRequestException, ObjectNotFoundException {
 		return ResponseEntity.ok(recipeService.update(id, recipe));
 	}
 

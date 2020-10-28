@@ -14,4 +14,5 @@ public interface LabelRepository extends JpaRepository<Label, String> {
 	@Query(value = "truncate table label cascade", nativeQuery = true)
 	void truncateTable();
 
+	Label findByName(String name);
 }

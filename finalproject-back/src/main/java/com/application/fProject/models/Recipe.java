@@ -1,6 +1,7 @@
 package com.application.fProject.models;
 
 import java.sql.Blob;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -58,5 +59,8 @@ public class Recipe extends Element {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_owner", nullable = false, foreignKey = @ForeignKey(name = "FK_recipes_owner"))
 	private User owner;
+	
+	@Column(name="publicationDate")
+	private Date publicationDate;
 
 }

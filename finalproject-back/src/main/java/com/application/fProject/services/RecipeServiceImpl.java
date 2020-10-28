@@ -1,5 +1,6 @@
 package com.application.fProject.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,8 +18,10 @@ import com.application.fProject.dtos.RecipePersistentDto;
 import com.application.fProject.dtos.UserDto;
 import com.application.fProject.exceptions.BadRequestException;
 import com.application.fProject.exceptions.ObjectNotFoundException;
+import com.application.fProject.models.Label;
 import com.application.fProject.models.Recipe;
 import com.application.fProject.models.User;
+import com.application.fProject.repositories.LabelRepository;
 import com.application.fProject.repositories.RecipeRepository;
 import com.application.fProject.repositories.UserRepository;
 
@@ -29,16 +32,20 @@ public class RecipeServiceImpl implements RecipeService {
 
 	private final RecipeRepository recipeRepository;
 
+	private final LabelRepository labelRepository;
+
 	private final UserRepository userRepository;
 
 	private final ModelMapper modelMapper;
 
 	@Autowired
-	public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepository userRepository) {
+	public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepository userRepository,
+			LabelRepository labelRepository) {
 		super();
 		this.modelMapper = new ModelMapper();
 		this.recipeRepository = recipeRepository;
 		this.userRepository = userRepository;
+		this.labelRepository = labelRepository;
 	}
 
 	@Override
@@ -99,6 +106,24 @@ public class RecipeServiceImpl implements RecipeService {
 	@CacheEvict(cacheNames = CACHE, allEntries = true)
 	public void remove(String id) throws ObjectNotFoundException {
 		recipeRepository.deleteById(findById(id).getId());
+	}
+
+	@Override
+	@Transactional
+	@Cacheable(CACHE)
+	public List<RecipeDto> findByIdLabel(String idLabel) {
+		List<Recipe> recipes = recipeRepository.findAll();
+		List<RecipeDto> newRecipes = new ArrayList<RecipeDto>();
+
+		for (Recipe recipe : recipes) {
+			List<Label> labels = recipe.getLabel();
+			for (Label label : labels) {
+				if (label.getId().compareToIgnoreCase(idLabel) == 0) {
+					newRecipes.add(modelMapper.map(recipe, RecipeDto.class));
+				}
+			}
+		}
+		return newRecipes;
 	}
 
 }

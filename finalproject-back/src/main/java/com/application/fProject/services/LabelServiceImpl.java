@@ -50,7 +50,7 @@ public class LabelServiceImpl implements LabelService {
 		Optional<Label> label = labelRepository.findById(id);
 
 		if (!label.isPresent()) {
-			throw new ObjectNotFoundException("Recipe not found");
+			throw new ObjectNotFoundException("Label not found");
 		}
 
 		return modelMapper.map(label.get(), LabelDto.class);
@@ -60,6 +60,10 @@ public class LabelServiceImpl implements LabelService {
 	@Transactional
 	@CacheEvict(cacheNames = CACHE, allEntries = true)
 	public LabelDto create(LabelPersistentDto label) throws BadRequestException, ObjectNotFoundException {
+		System.out.println();
+		if(labelRepository.findByName(label.getName())!=null) {
+			return null;
+		}
 		return modelMapper.map(labelRepository.save(modelMapper.map(label, Label.class)), LabelDto.class);
 	}
 
@@ -68,7 +72,9 @@ public class LabelServiceImpl implements LabelService {
 	@CacheEvict(cacheNames = CACHE, allEntries = true)
 	public LabelDto update(String id, LabelPersistentDto label) throws BadRequestException, ObjectNotFoundException {
 		LabelDto existingLabel = findById(id);
-
+		if(labelRepository.findByName(label.getName())!=null) {
+			return null;
+		}
 		modelMapper.map(label, existingLabel);
 
 		return modelMapper.map(labelRepository.save(modelMapper.map(existingLabel, Label.class)), LabelDto.class);
