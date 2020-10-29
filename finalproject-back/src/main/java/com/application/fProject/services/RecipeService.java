@@ -18,7 +18,9 @@ public interface RecipeService {
 	RecipeDto update(String id, RecipePersistentDto recipe) throws BadRequestException, ObjectNotFoundException;
 
 	void remove(String id) throws ObjectNotFoundException;
-	
+
 	List<RecipeDto> findByIdLabel(String idLabel);
+
+	List<RecipeDto> findLastRecipes();
 
 }

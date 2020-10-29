@@ -1,6 +1,9 @@
 package com.application.fProject.services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,7 +24,6 @@ import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.models.Label;
 import com.application.fProject.models.Recipe;
 import com.application.fProject.models.User;
-import com.application.fProject.repositories.LabelRepository;
 import com.application.fProject.repositories.RecipeRepository;
 import com.application.fProject.repositories.UserRepository;
 
@@ -32,20 +34,16 @@ public class RecipeServiceImpl implements RecipeService {
 
 	private final RecipeRepository recipeRepository;
 
-	private final LabelRepository labelRepository;
-
 	private final UserRepository userRepository;
 
 	private final ModelMapper modelMapper;
 
 	@Autowired
-	public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepository userRepository,
-			LabelRepository labelRepository) {
+	public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepository userRepository) {
 		super();
 		this.modelMapper = new ModelMapper();
 		this.recipeRepository = recipeRepository;
 		this.userRepository = userRepository;
-		this.labelRepository = labelRepository;
 	}
 
 	@Override
@@ -79,8 +77,15 @@ public class RecipeServiceImpl implements RecipeService {
 		if (!user.isPresent()) {
 			throw new ObjectNotFoundException("User not found");
 		}
+		if (recipe.getState().compareToIgnoreCase("publicada") == 0) {
+			recipe.setPublicationDate((java.sql.Date) getDateNow());
+		}
 
 		return modelMapper.map(recipeRepository.save(modelMapper.map(recipe, Recipe.class)), RecipeDto.class);
+	}
+
+	private Date getDateNow() {
+		return new Date();
 	}
 
 	@Override
@@ -95,7 +100,9 @@ public class RecipeServiceImpl implements RecipeService {
 		if (!user.isPresent()) {
 			throw new ObjectNotFoundException("User not found");
 		}
-
+		if (recipe.getState().compareToIgnoreCase("publicada") == 0) {
+			recipe.setPublicationDate((java.sql.Date) getDateNow());
+		}
 		modelMapper.map(recipe, existingRecipe);
 
 		return modelMapper.map(recipeRepository.save(modelMapper.map(existingRecipe, Recipe.class)), RecipeDto.class);
@@ -124,6 +131,22 @@ public class RecipeServiceImpl implements RecipeService {
 			}
 		}
 		return newRecipes;
+	}
+
+	@Override
+	@Transactional
+	@Cacheable(CACHE)
+	public List<RecipeDto> findLastRecipes() {
+		/*List<RecipeDto> recipes = recipeRepository.findAll().stream()
+				.map(recipe -> modelMapper.map(recipe, RecipeDto.class)).collect(Collectors.toList());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dateNow =sdf.parse(getDateNow().toString());
+		
+		for (RecipeDto recipe : recipes) {
+			Date dateRecipe=sdf.parse(recipe.getPublicationDate().toString());
+		}*/
+
+		return null;
 	}
 
 }

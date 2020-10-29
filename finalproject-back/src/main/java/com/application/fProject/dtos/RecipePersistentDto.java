@@ -1,6 +1,5 @@
 package com.application.fProject.dtos;
 
-import java.sql.Blob;
 import java.sql.Date;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class RecipePersistentDto extends ElementPersistDto {
 
 	private String difficulty;
 
-	private Blob img;
+	private String img;
 
 	private String ingredients;
 

@@ -1,6 +1,5 @@
 package com.application.fProject.models;
 
-import java.sql.Blob;
 import java.sql.Date;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class Recipe extends Element {
 	private static final long serialVersionUID = 6766929063510637268L;
 
 	@Column(name = "img")
-	private Blob img;
+	private String img;
 
 	@Column(name = "ingredients")
 	private String ingredients;
@@ -48,7 +47,7 @@ public class Recipe extends Element {
 
 	@Column(name = "suggestions")
 	private String suggestions;
-	
+
 	@Column(name = "state")
 	private String state;
 
@@ -59,8 +58,8 @@ public class Recipe extends Element {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_owner", nullable = false, foreignKey = @ForeignKey(name = "FK_recipes_owner"))
 	private User owner;
-	
-	@Column(name="publicationDate")
+
+	@Column(name = "publicationDate")
 	private Date publicationDate;
 
 }

@@ -19,5 +19,8 @@ public interface SaveRecipeService {
 			throws BadRequestException, ObjectNotFoundException;
 
 	void remove(String id) throws ObjectNotFoundException;
+	
+	List<SavedRecipeDto> findByUser(String idUser);
+	
 
 }

@@ -23,7 +23,7 @@ import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.services.SaveRecipeService;
 
 @RestController
-@RequestMapping("/SavedRecipes")
+@RequestMapping("/savedRecipes")
 public class SaveRecipeController {
 
 	private final SaveRecipeService saveRecipe;
@@ -41,6 +41,11 @@ public class SaveRecipeController {
 	@GetMapping("/{id}")
 	public ResponseEntity<SavedRecipeDto> findById(@PathVariable("id") String id) throws ObjectNotFoundException {
 		return ResponseEntity.ok(saveRecipe.findById(id));
+	}
+
+	@GetMapping("/user/{id}")
+	public ResponseEntity<List<SavedRecipeDto>> findByUser(@PathVariable("id") String id) {
+		return ResponseEntity.ok(saveRecipe.findByUser(id));
 	}
 
 	@PostMapping

@@ -125,4 +125,14 @@ public class SaveRecipeServiceImpl implements SaveRecipeService {
 		sRecipeRepository.deleteById(findById(id).getId());
 	}
 
+	@Override
+	@Transactional
+	@Cacheable(CACHE)
+	public List<SavedRecipeDto> findByUser(String idUser) {
+		// TODO Auto-generated method stub
+		Optional<User> user = userRepository.findById(idUser);
+		return sRecipeRepository.findByUser(modelMapper.map(user.get(), User.class)).stream()
+				.map(sRecipe -> modelMapper.map(sRecipe, SavedRecipeDto.class)).collect(Collectors.toList());
+	}
+
 }
