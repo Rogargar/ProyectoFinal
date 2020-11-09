@@ -1,7 +1,8 @@
 package com.application.fProject.services;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -112,6 +113,19 @@ public class RecipeServiceImpl implements RecipeService {
 	@Transactional
 	@CacheEvict(cacheNames = CACHE, allEntries = true)
 	public void remove(String id) throws ObjectNotFoundException {
+
+		RecipeDto recipe = findById(id);
+
+		String fotoAnterior = recipe.getImg();
+
+		if (fotoAnterior != null && fotoAnterior.length() > 0) {
+			Path rutaAnterio = Paths.get("uploads").resolve(fotoAnterior).toAbsolutePath();
+			File archivoAnterior = rutaAnterio.toFile();
+
+			if (archivoAnterior.exists() && archivoAnterior.canRead()) {
+				archivoAnterior.delete();
+			}
+		}
 		recipeRepository.deleteById(findById(id).getId());
 	}
 
@@ -137,14 +151,15 @@ public class RecipeServiceImpl implements RecipeService {
 	@Transactional
 	@Cacheable(CACHE)
 	public List<RecipeDto> findLastRecipes() {
-		/*List<RecipeDto> recipes = recipeRepository.findAll().stream()
-				.map(recipe -> modelMapper.map(recipe, RecipeDto.class)).collect(Collectors.toList());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date dateNow =sdf.parse(getDateNow().toString());
-		
-		for (RecipeDto recipe : recipes) {
-			Date dateRecipe=sdf.parse(recipe.getPublicationDate().toString());
-		}*/
+		/*
+		 * List<RecipeDto> recipes = recipeRepository.findAll().stream() .map(recipe ->
+		 * modelMapper.map(recipe, RecipeDto.class)).collect(Collectors.toList());
+		 * SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); Date dateNow
+		 * =sdf.parse(getDateNow().toString());
+		 * 
+		 * for (RecipeDto recipe : recipes) { Date
+		 * dateRecipe=sdf.parse(recipe.getPublicationDate().toString()); }
+		 */
 
 		return null;
 	}
