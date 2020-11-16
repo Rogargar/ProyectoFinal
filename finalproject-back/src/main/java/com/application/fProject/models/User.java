@@ -1,7 +1,14 @@
 package com.application.fProject.models;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -28,7 +35,8 @@ public class User extends Element {
 	@Column(name = "pass")
 	private String pass;
 
-	@Column(name = "rol")
-	private String rol;
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_roles", nullable = false, foreignKey = @ForeignKey(name = "FK_roles_user"))
+	private List<Role> roles;
 
 }

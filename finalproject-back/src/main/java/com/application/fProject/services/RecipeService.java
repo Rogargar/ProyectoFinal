@@ -22,5 +22,7 @@ public interface RecipeService {
 	List<RecipeDto> findByIdLabel(String idLabel);
 
 	List<RecipeDto> findLastRecipes();
+	
+	List<RecipeDto> findByOwner(String idUser);
 
 }

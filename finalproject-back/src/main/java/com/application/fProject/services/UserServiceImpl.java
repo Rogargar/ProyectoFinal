@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
 	@CacheEvict(cacheNames = CACHE, allEntries = true)
 	public String findByEmailAndPass(UserPersistentDto user) {
 		Optional<User> checkUser = userRepository.findByEmail(user.getEmail());
-
+		//checkUser.get().setPass(getMD5(checkUser.get().getPass()));
 		if (!checkUser.isPresent()) {
 			return "-1";
 		} else {

@@ -13,14 +13,15 @@ public interface SaveRecipeService {
 
 	SavedRecipeDto findById(String id) throws ObjectNotFoundException;
 
+	SavedRecipeDto findByIdRecipeIdUser(String idUser, String isRecipe) throws ObjectNotFoundException ;
+
 	SavedRecipeDto create(SavedRecipePersistentDto sRecipe) throws BadRequestException, ObjectNotFoundException;
 
 	SavedRecipeDto update(String id, SavedRecipePersistentDto sRecipe)
 			throws BadRequestException, ObjectNotFoundException;
 
 	void remove(String id) throws ObjectNotFoundException;
-	
+
 	List<SavedRecipeDto> findByUser(String idUser);
-	
 
 }

@@ -1,5 +1,7 @@
 package com.application.fProject.dtos;
 
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,7 @@ public class UserPersistentDto extends ElementPersistDto {
 	private String email;
 
 	private String pass;
-
-	private String rol;
+	
+	private List<RoleDto> roles;
 
 }

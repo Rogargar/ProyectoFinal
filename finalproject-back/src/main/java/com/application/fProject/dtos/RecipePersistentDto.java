@@ -30,7 +30,7 @@ public class RecipePersistentDto extends ElementPersistDto {
 
 	private String ration;
 
-	private String suggestion;
+	private String suggestions;
 
 	private String time;
 

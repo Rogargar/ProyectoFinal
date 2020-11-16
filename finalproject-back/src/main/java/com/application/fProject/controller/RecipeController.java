@@ -61,6 +61,11 @@ public class RecipeController {
 		return ResponseEntity.ok(recipeService.findByIdLabel(id));
 	}
 
+	@GetMapping("/owner/{id}")
+	public ResponseEntity<List<RecipeDto>> findByIdOwner(@PathVariable("id") String id) throws ObjectNotFoundException {
+		return ResponseEntity.ok(recipeService.findByOwner(id));
+	}
+
 	@PostMapping
 	public ResponseEntity<RecipeDto> create(@Valid @RequestBody RecipePersistentDto recipe)
 			throws BadRequestException, ObjectNotFoundException {

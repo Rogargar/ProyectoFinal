@@ -73,19 +73,23 @@ public class SaveRecipeServiceImpl implements SaveRecipeService {
 	@Transactional
 	@CacheEvict(cacheNames = CACHE, allEntries = true)
 	public SavedRecipeDto create(SavedRecipePersistentDto sRecipe) throws BadRequestException, ObjectNotFoundException {
-		UserDto userInSrecipe = sRecipe.getUser();
-		Optional<User> user = userRepository.findById(userInSrecipe.getId());
+		/*
+		 * UserDto userInSrecipe = sRecipe.getUser(); Optional<User> user =
+		 * userRepository.findById(userInSrecipe.getId());
+		 */
+		/*
+		 * if (!user.isPresent()) { throw new ObjectNotFoundException("User not found");
+		 * }
+		 */
 
-		if (!user.isPresent()) {
-			throw new ObjectNotFoundException("User not found");
-		}
+		// RecipeDto recipeInSrecipe = sRecipe.getRecipes();
+		// Optional<Recipe> recipe = recipeRepository.findById(recipeInSrecipe.getId());
 
-		RecipeDto recipeInSrecipe = sRecipe.getRecipes();
-		Optional<Recipe> recipe = recipeRepository.findById(recipeInSrecipe.getId());
+		/*
+		 * if (!recipe.isPresent()) { throw new
+		 * ObjectNotFoundException("Recipe not found"); }
+		 */
 
-		if (!recipe.isPresent()) {
-			throw new ObjectNotFoundException("Recipe not found");
-		}
 
 		return modelMapper.map(sRecipeRepository.save(modelMapper.map(sRecipe, SavedRecipe.class)),
 				SavedRecipeDto.class);
@@ -129,10 +133,37 @@ public class SaveRecipeServiceImpl implements SaveRecipeService {
 	@Transactional
 	@Cacheable(CACHE)
 	public List<SavedRecipeDto> findByUser(String idUser) {
-		// TODO Auto-generated method stub
+
 		Optional<User> user = userRepository.findById(idUser);
 		return sRecipeRepository.findByUser(modelMapper.map(user.get(), User.class)).stream()
 				.map(sRecipe -> modelMapper.map(sRecipe, SavedRecipeDto.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	@Transactional
+	@Cacheable(CACHE)
+	public SavedRecipeDto findByIdRecipeIdUser(String idUser, String isRecipe) throws ObjectNotFoundException {
+		Optional<User> user = userRepository.findById(idUser);
+
+		if (!user.isPresent()) {
+			throw new ObjectNotFoundException("User not found");
+		}
+
+		Optional<Recipe> recipe = recipeRepository.findById(isRecipe);
+
+		if (!recipe.isPresent()) {
+			throw new ObjectNotFoundException("Recipe not found");
+		}
+
+		SavedRecipe sr = sRecipeRepository.findByUserAndRecipes(modelMapper.map(user.get(), User.class),
+				modelMapper.map(recipe.get(), Recipe.class));
+
+		if (sr == null) {
+			return new SavedRecipeDto();
+		}
+
+		return modelMapper.map(sr, SavedRecipeDto.class);
+
 	}
 
 }

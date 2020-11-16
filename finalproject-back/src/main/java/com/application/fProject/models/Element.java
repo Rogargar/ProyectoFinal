@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
@@ -20,7 +19,6 @@ public class Element implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false, length = 40)
 	private String id;
 
-	@NotBlank
 	@Column(name = "name", nullable = false)
 	private String name;
 

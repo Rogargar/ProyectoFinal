@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.application.fProject.models.Recipe;
+import com.application.fProject.models.User;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, String> {
@@ -16,7 +17,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, String> {
 	@Query(value = "truncate table recipes cascade", nativeQuery = true)
 	void truncateTable();
 
-	/*@Query(value = "select r.name from Recipe r inner join Label l on r.label.id=label.id where l.id=:idlabel")
-	List<Recipe> findByLabelPro(String idlabel);*/
+	List<Recipe> findByOwner(User owner);
+	
+	
 
 }

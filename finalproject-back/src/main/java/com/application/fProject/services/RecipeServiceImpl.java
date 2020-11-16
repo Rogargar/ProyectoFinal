@@ -164,4 +164,13 @@ public class RecipeServiceImpl implements RecipeService {
 		return null;
 	}
 
+	@Override
+	@Transactional
+	@Cacheable(CACHE)
+	public List<RecipeDto> findByOwner(String idUser) {
+		Optional<User> user = userRepository.findById(idUser);
+		return recipeRepository.findByOwner(modelMapper.map(user.get(), User.class)).stream()
+				.map(recipe -> modelMapper.map(recipe, RecipeDto.class)).collect(Collectors.toList());
+	}
+
 }

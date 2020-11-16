@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.application.fProject.models.Recipe;
 import com.application.fProject.models.SavedRecipe;
 import com.application.fProject.models.User;
 
@@ -18,6 +19,12 @@ public interface SaveRecipeRepository extends JpaRepository<SavedRecipe, String>
 	void truncateTable();
 
 	List<SavedRecipe> findByUser(User user);
-	
-	
+
+	SavedRecipe findByUserAndRecipes(User user, Recipe recipe);
+
+	/*
+	 * @Query("INSERT INTO saved_recipes('id_recipes', 'id_user') VALUES(:idRecipe,:idUser)"
+	 * ) SavedRecipe guardarReceta(String idRecipe, String idUser);
+	 */
+
 }

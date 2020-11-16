@@ -48,9 +48,16 @@ public class SaveRecipeController {
 		return ResponseEntity.ok(saveRecipe.findByUser(id));
 	}
 
+	@GetMapping("/user/{idUser}/recipes/{idRecipe}")
+	public ResponseEntity<SavedRecipeDto> findByUserAndRecipe(@PathVariable("idUser") String idUser,
+			@PathVariable("idRecipe") String idRecipe) throws ObjectNotFoundException {
+		return ResponseEntity.ok(saveRecipe.findByIdRecipeIdUser(idUser, idRecipe));
+	}
+
 	@PostMapping
 	public ResponseEntity<SavedRecipeDto> create(@Valid @RequestBody SavedRecipePersistentDto sRecipe)
 			throws BadRequestException, ObjectNotFoundException {
+		System.out.println(sRecipe);
 		return ResponseEntity.ok(saveRecipe.create(sRecipe));
 	}
 
