@@ -3,7 +3,10 @@ package com.application.fProject.services;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -79,7 +82,7 @@ public class RecipeServiceImpl implements RecipeService {
 			throw new ObjectNotFoundException("User not found");
 		}
 		if (recipe.getState().compareToIgnoreCase("publicada") == 0) {
-			recipe.setPublicationDate((java.sql.Date) getDateNow());
+			recipe.setPublicationDate(getDateNow());
 		}
 
 		return modelMapper.map(recipeRepository.save(modelMapper.map(recipe, Recipe.class)), RecipeDto.class);
@@ -101,8 +104,8 @@ public class RecipeServiceImpl implements RecipeService {
 		if (!user.isPresent()) {
 			throw new ObjectNotFoundException("User not found");
 		}
-		if (recipe.getState().compareToIgnoreCase("publicada") == 0) {
-			recipe.setPublicationDate((java.sql.Date) getDateNow());
+		if (recipe.getState().compareToIgnoreCase("Publicada") == 0) {
+			recipe.setPublicationDate(getDateNow());
 		}
 		modelMapper.map(recipe, existingRecipe);
 
@@ -150,18 +153,33 @@ public class RecipeServiceImpl implements RecipeService {
 	@Override
 	@Transactional
 	@Cacheable(CACHE)
-	public List<RecipeDto> findLastRecipes() {
-		/*
-		 * List<RecipeDto> recipes = recipeRepository.findAll().stream() .map(recipe ->
-		 * modelMapper.map(recipe, RecipeDto.class)).collect(Collectors.toList());
-		 * SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); Date dateNow
-		 * =sdf.parse(getDateNow().toString());
-		 * 
-		 * for (RecipeDto recipe : recipes) { Date
-		 * dateRecipe=sdf.parse(recipe.getPublicationDate().toString()); }
-		 */
+	public List<RecipeDto> findLastRecipes() throws ParseException {
+		List<RecipeDto> newRecipes = new ArrayList<RecipeDto>();
 
-		return null;
+		List<RecipeDto> recipes = recipeRepository.findAll().stream()
+				.map(recipe -> modelMapper.map(recipe, RecipeDto.class)).collect(Collectors.toList());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date dateNow = new Date(Calendar.getInstance().getTimeInMillis());
+		String now = sdf.format(dateNow);
+		// String dayNow = now.split("/")[0];
+		String monthNow = now.split("/")[1];
+		String yearNow = now.split("/")[2];
+
+		for (RecipeDto recipe : recipes) {
+			if (recipe.getState().compareToIgnoreCase("Publicada") == 0) {
+				String dateRecipe = sdf.format(recipe.getPublicationDate());
+				// String day = dateRecipe.split("/")[0];
+				String month = dateRecipe.split("/")[1];
+				String year = dateRecipe.split("/")[2];
+				if (yearNow.compareToIgnoreCase(year) == 0) {
+					if (monthNow.compareToIgnoreCase(month) == 0) {
+						newRecipes.add(recipe);
+					}
+				}
+			}
+		}
+
+		return newRecipes;
 	}
 
 	@Override

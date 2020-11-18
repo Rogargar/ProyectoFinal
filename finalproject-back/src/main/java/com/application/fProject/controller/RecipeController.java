@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,12 +121,15 @@ public class RecipeController {
 			recipeService.update(id, recipe);
 
 			response.put("recipe", recipe);
-			// response.put("message", "Se ha subido correctamente la imagen: " +
-			// nombreFile);
 		}
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 
+	}
+
+	@GetMapping("/day")
+	public ResponseEntity<List<RecipeDto>> findLastRecipes() throws ParseException {
+		return ResponseEntity.ok(recipeService.findLastRecipes());
 	}
 
 	@GetMapping("/uploads/img/{namePicture:.+}")

@@ -1,5 +1,6 @@
 package com.application.fProject.services;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.application.fProject.dtos.RecipeDto;
@@ -21,7 +22,7 @@ public interface RecipeService {
 
 	List<RecipeDto> findByIdLabel(String idLabel);
 
-	List<RecipeDto> findLastRecipes();
+	List<RecipeDto> findLastRecipes() throws ParseException;
 	
 	List<RecipeDto> findByOwner(String idUser);
 
