@@ -154,6 +154,7 @@ public class RecipeServiceImpl implements RecipeService {
 	@Transactional
 	@Cacheable(CACHE)
 	public List<RecipeDto> findLastRecipes() throws ParseException {
+		int c=0;
 		List<RecipeDto> newRecipes = new ArrayList<RecipeDto>();
 
 		List<RecipeDto> recipes = recipeRepository.findAll().stream()
@@ -161,19 +162,33 @@ public class RecipeServiceImpl implements RecipeService {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date dateNow = new Date(Calendar.getInstance().getTimeInMillis());
 		String now = sdf.format(dateNow);
-		// String dayNow = now.split("/")[0];
 		String monthNow = now.split("/")[1];
 		String yearNow = now.split("/")[2];
 
 		for (RecipeDto recipe : recipes) {
 			if (recipe.getState().compareToIgnoreCase("Publicada") == 0) {
 				String dateRecipe = sdf.format(recipe.getPublicationDate());
-				// String day = dateRecipe.split("/")[0];
 				String month = dateRecipe.split("/")[1];
 				String year = dateRecipe.split("/")[2];
 				if (yearNow.compareToIgnoreCase(year) == 0) {
 					if (monthNow.compareToIgnoreCase(month) == 0) {
 						newRecipes.add(recipe);
+						c++;
+					}
+				}
+			}
+		}
+		
+		if(c<=2) {
+			for (RecipeDto recipe : recipes) {
+				if (recipe.getState().compareToIgnoreCase("Publicada") == 0) {
+					String dateRecipe = sdf.format(recipe.getPublicationDate());
+					String month = dateRecipe.split("/")[1];
+					String year = dateRecipe.split("/")[2];
+					if (yearNow.compareToIgnoreCase(year) == 0) {
+						if (monthNow.compareToIgnoreCase(month) < 0) {
+							newRecipes.add(recipe);
+						}
 					}
 				}
 			}
