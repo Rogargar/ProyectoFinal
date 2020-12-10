@@ -52,6 +52,11 @@ public class RecipeController {
 		return ResponseEntity.ok(recipeService.findAll());
 	}
 
+	@GetMapping("/publicated")
+	public ResponseEntity<List<RecipeDto>> findAllByPublicated() {
+		return ResponseEntity.ok(recipeService.findAllByPublicated());
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<RecipeDto> findById(@PathVariable("id") String id) throws ObjectNotFoundException {
 		return ResponseEntity.ok(recipeService.findById(id));

@@ -11,6 +11,8 @@ import com.application.fProject.exceptions.ObjectNotFoundException;
 public interface RecipeService {
 
 	List<RecipeDto> findAll();
+	
+	List<RecipeDto> findAllByPublicated();
 
 	RecipeDto findById(String id) throws ObjectNotFoundException;
 

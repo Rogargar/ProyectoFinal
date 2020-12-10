@@ -140,10 +140,12 @@ public class RecipeServiceImpl implements RecipeService {
 		List<RecipeDto> newRecipes = new ArrayList<RecipeDto>();
 
 		for (Recipe recipe : recipes) {
-			List<Label> labels = recipe.getLabel();
-			for (Label label : labels) {
-				if (label.getId().compareToIgnoreCase(idLabel) == 0) {
-					newRecipes.add(modelMapper.map(recipe, RecipeDto.class));
+			if (recipe.getState().compareToIgnoreCase("Publicada") == 0) {
+				List<Label> labels = recipe.getLabel();
+				for (Label label : labels) {
+					if (label.getId().compareToIgnoreCase(idLabel) == 0) {
+						newRecipes.add(modelMapper.map(recipe, RecipeDto.class));
+					}
 				}
 			}
 		}
@@ -154,7 +156,7 @@ public class RecipeServiceImpl implements RecipeService {
 	@Transactional
 	@Cacheable(CACHE)
 	public List<RecipeDto> findLastRecipes() throws ParseException {
-		int c=0;
+		int c = 0;
 		List<RecipeDto> newRecipes = new ArrayList<RecipeDto>();
 
 		List<RecipeDto> recipes = recipeRepository.findAll().stream()
@@ -178,8 +180,8 @@ public class RecipeServiceImpl implements RecipeService {
 				}
 			}
 		}
-		
-		if(c<=2) {
+
+		if (c <= 2) {
 			for (RecipeDto recipe : recipes) {
 				if (recipe.getState().compareToIgnoreCase("Publicada") == 0) {
 					String dateRecipe = sdf.format(recipe.getPublicationDate());
@@ -204,6 +206,23 @@ public class RecipeServiceImpl implements RecipeService {
 		Optional<User> user = userRepository.findById(idUser);
 		return recipeRepository.findByOwner(modelMapper.map(user.get(), User.class)).stream()
 				.map(recipe -> modelMapper.map(recipe, RecipeDto.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	@Transactional
+	@Cacheable(CACHE)
+	public List<RecipeDto> findAllByPublicated() {
+		List<RecipeDto> newRecipes = new ArrayList<RecipeDto>();
+
+		List<RecipeDto> recipes = recipeRepository.findAll().stream()
+				.map(recipe -> modelMapper.map(recipe, RecipeDto.class)).collect(Collectors.toList());
+
+		for (RecipeDto recipe : recipes) {
+			if (recipe.getState().compareToIgnoreCase("Publicada") == 0) {
+				newRecipes.add(recipe);
+			}
+		}
+		return newRecipes;
 	}
 
 }
