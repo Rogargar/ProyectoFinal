@@ -19,7 +19,7 @@ public class Element implements Serializable {
 	@Column(name = "id", updatable = false, nullable = false, length = 40)
 	private String id;
 
-	@Column(name = "name", nullable = false)
+	@Column(name = "name")
 	private String name;
 
 	/*
