@@ -23,6 +23,8 @@ public class UserPersistentDto extends ElementPersistDto {
 
 	private String pass;
 	
+	private String img;
+	
 	private List<RoleDto> roles;
 
 }

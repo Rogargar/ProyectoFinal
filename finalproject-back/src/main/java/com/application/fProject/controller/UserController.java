@@ -1,10 +1,22 @@
 package com.application.fProject.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +27,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.application.fProject.dtos.UserDto;
 import com.application.fProject.dtos.UserPersistentDto;
@@ -45,13 +59,13 @@ public class UserController {
 	}
 
 	@PostMapping("/emailPass")
-	@CrossOrigin(origins ="http://localhost:4200")
+	@CrossOrigin(origins = "http://localhost:4200")
 	public String trueEmailAndPass(@Valid @RequestBody UserPersistentDto user) {
 		System.out.println(user);
 		return userService.findByEmailAndPass(user);
 	}
 
-    @GetMapping("/email/{email}")
+	@GetMapping("/email/{email}")
 	public ResponseEntity<UserDto> findEmail(@PathVariable("email") String email) {
 		return ResponseEntity.ok(userService.findByEmail(email));
 	}
@@ -71,6 +85,72 @@ public class UserController {
 	public ResponseEntity<Void> remove(@PathVariable("id") String id) throws ObjectNotFoundException {
 		userService.remove(id);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@PostMapping("/upload")
+	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, @RequestParam("id") String id)
+			throws ObjectNotFoundException, BadRequestException {
+		Map<String, Object> response = new HashMap<>();
+
+		UserDto user = userService.findById(id);
+
+		if (!file.isEmpty()) {
+			String nombreFile = UUID.randomUUID().toString() + "_" + file.getOriginalFilename().replace(" ", "");
+
+			Path rutaFile = Paths.get("userImg").resolve(nombreFile).toAbsolutePath();
+
+			try {
+				Files.copy(file.getInputStream(), rutaFile);
+			} catch (IOException e) {
+				response.put("message", "Error al subir la imagen: " + nombreFile);
+				response.put("error", e.getMessage().concat(" : ").concat(e.getCause().getMessage()));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+
+			String fotoAnterior = user.getImg();
+
+			if (fotoAnterior != null && fotoAnterior.length() > 0) {
+				Path rutaAnterio = Paths.get("uploads").resolve(fotoAnterior).toAbsolutePath();
+				File archivoAnterior = rutaAnterio.toFile();
+
+				if (archivoAnterior.exists() && archivoAnterior.canRead()) {
+					archivoAnterior.delete();
+				}
+			}
+
+			user.setImg(nombreFile);
+
+			userService.update(id, user);
+
+			response.put("user", user);
+		}
+
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+
+	}
+
+	@GetMapping("/uploads/img/{namePicture:.+}")
+	public ResponseEntity<Resource> watchPicture(@PathVariable String namePicture) {
+		Path rutaFile = Paths.get("userImg").resolve(namePicture).toAbsolutePath();
+		Resource resource = null;
+
+		try {
+
+			resource = new UrlResource(rutaFile.toUri());
+
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+		}
+
+		if (!resource.exists() && !resource.isReadable()) {
+			throw new RuntimeException("Error al cargar la imagen");
+		}
+
+		HttpHeaders cabecer = new HttpHeaders();
+		cabecer.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + resource.getFilename() + "\"");
+
+		return new ResponseEntity<Resource>(resource, cabecer, HttpStatus.OK);
 	}
 
 }

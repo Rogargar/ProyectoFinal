@@ -34,6 +34,9 @@ public class User extends Element {
 
 	@Column(name = "pass")
 	private String pass;
+	
+	@Column(name = "img")
+	private String img;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_roles", nullable = false, foreignKey = @ForeignKey(name = "FK_roles_user"))
