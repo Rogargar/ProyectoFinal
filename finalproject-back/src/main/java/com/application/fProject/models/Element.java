@@ -22,12 +22,6 @@ public class Element implements Serializable {
 	@Column(name = "name")
 	private String name;
 
-	/*
-	 * @Temporal(TemporalType.TIMESTAMP)
-	 * 
-	 * @Column(name = "deleted_on") private Date deleteOn;
-	 */
-
 	public Element() {
 		super();
 		this.id = UUID.randomUUID().toString();

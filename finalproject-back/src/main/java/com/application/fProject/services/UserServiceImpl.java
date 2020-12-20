@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
 
 		Optional<User> checkUser = userRepository.findByEmail(user.getEmail());
 
-		user.setPass(getMD5(user.getPass()));
+		//user.setPass(getMD5(user.getPass()));
 
 		if (!existingUser.getEmail().equalsIgnoreCase(user.getEmail())) {
 			if (checkUser.isPresent()) {
