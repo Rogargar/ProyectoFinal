@@ -11,6 +11,13 @@ import com.application.fProject.models.Recipe;
 import com.application.fProject.models.SavedRecipe;
 import com.application.fProject.models.User;
 
+
+/**
+ *  Save Recipe repository
+ *  
+ * @author Rocío García
+ *
+ */
 @Repository
 public interface SaveRecipeRepository extends JpaRepository<SavedRecipe, String> {
 

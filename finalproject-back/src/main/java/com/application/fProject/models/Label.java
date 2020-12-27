@@ -8,6 +8,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * The persistent class for the label database table
+ * 
+ * @author Rocío García
+ *
+ */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)

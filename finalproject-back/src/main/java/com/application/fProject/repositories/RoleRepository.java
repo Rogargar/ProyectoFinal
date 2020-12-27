@@ -6,6 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.application.fProject.models.Role;
 
+/**
+ *  Role repository
+ *  
+ * @author Rocío García
+ *
+ */
 public interface RoleRepository extends JpaRepository<Role, String> {
 
 	@Modifying

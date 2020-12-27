@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import com.application.fProject.models.User;
 
+/**
+ *  User repository
+ *  
+ * @author Rocío García
+ *
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 

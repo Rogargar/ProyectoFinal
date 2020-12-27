@@ -10,6 +10,12 @@ import org.springframework.stereotype.Repository;
 import com.application.fProject.models.Recipe;
 import com.application.fProject.models.User;
 
+/**
+ *  Recipe repository
+ *  
+ * @author Rocío García
+ *
+ */
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, String> {
 

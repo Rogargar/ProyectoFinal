@@ -9,6 +9,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ *Create and update recipe DTO
+ * 
+ * @author Rocío García
+ *
+ */
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)

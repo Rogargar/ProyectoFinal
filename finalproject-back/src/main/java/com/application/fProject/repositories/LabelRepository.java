@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import com.application.fProject.models.Label;
 
+/**
+ *  Label repository
+ *  
+ * @author Rocío García
+ *
+ */
 @Repository
 public interface LabelRepository extends JpaRepository<Label, String> {
 

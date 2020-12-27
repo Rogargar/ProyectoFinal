@@ -8,6 +8,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+/**
+ *DTO to get Menu
+ * 
+ * @author Rocío García
+ *
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)

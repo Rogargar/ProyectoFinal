@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import com.application.fProject.models.Menu;
 
+/**
+ *  Menu repository
+ *  
+ * @author Rocío García
+ *
+ */
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, String> {
 
