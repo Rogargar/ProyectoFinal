@@ -11,10 +11,9 @@ import com.application.fProject.models.Recipe;
 import com.application.fProject.models.SavedRecipe;
 import com.application.fProject.models.User;
 
-
 /**
- *  Save Recipe repository
- *  
+ * Save Recipe repository
+ * 
  * @author Rocío García
  *
  */
@@ -28,6 +27,8 @@ public interface SaveRecipeRepository extends JpaRepository<SavedRecipe, String>
 	List<SavedRecipe> findByUser(User user);
 
 	SavedRecipe findByUserAndRecipes(User user, Recipe recipe);
+
+	List<SavedRecipe> findByRecipes(Recipe recipes);
 
 	/*
 	 * @Query("INSERT INTO saved_recipes('id_recipes', 'id_user') VALUES(:idRecipe,:idUser)"

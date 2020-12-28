@@ -27,8 +27,10 @@ import com.application.fProject.exceptions.BadRequestException;
 import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.models.Label;
 import com.application.fProject.models.Recipe;
+import com.application.fProject.models.SavedRecipe;
 import com.application.fProject.models.User;
 import com.application.fProject.repositories.RecipeRepository;
+import com.application.fProject.repositories.SaveRecipeRepository;
 import com.application.fProject.repositories.UserRepository;
 
 @Service
@@ -38,16 +40,20 @@ public class RecipeServiceImpl implements RecipeService {
 
 	private final RecipeRepository recipeRepository;
 
+	private final SaveRecipeRepository saveRecipeRepository;
+
 	private final UserRepository userRepository;
 
 	private final ModelMapper modelMapper;
 
 	@Autowired
-	public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepository userRepository) {
+	public RecipeServiceImpl(RecipeRepository recipeRepository, UserRepository userRepository,
+			SaveRecipeRepository saveRecipeRepository) {
 		super();
 		this.modelMapper = new ModelMapper();
 		this.recipeRepository = recipeRepository;
 		this.userRepository = userRepository;
+		this.saveRecipeRepository = saveRecipeRepository;
 	}
 
 	@Override
@@ -118,7 +124,11 @@ public class RecipeServiceImpl implements RecipeService {
 	public void remove(String id) throws ObjectNotFoundException {
 
 		RecipeDto recipe = findById(id);
+		List<SavedRecipe> srB = saveRecipeRepository.findByRecipes(modelMapper.map(recipe, Recipe.class));
 
+		for (SavedRecipe sr : srB) {
+			saveRecipeRepository.deleteById(sr.getId());
+		}
 		String fotoAnterior = recipe.getImg();
 
 		if (fotoAnterior != null && fotoAnterior.length() > 0) {
