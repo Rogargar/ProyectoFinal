@@ -16,6 +16,12 @@ import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.models.Role;
 import com.application.fProject.repositories.RoleRepository;
 
+/**
+ * Implementation of role Service
+ * 
+ * @author Rocío García
+ *
+ */
 @Service
 public class RoleServiceImpl implements RoleService {
 

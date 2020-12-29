@@ -22,6 +22,12 @@ import com.application.fProject.models.SavedRecipe;
 import com.application.fProject.repositories.MenuRepository;
 import com.application.fProject.repositories.SaveRecipeRepository;
 
+/**
+ * Implementation of menu Service
+ * 
+ * @author Rocío García
+ *
+ */
 @Service
 public class MenuServiceImpl implements MenuService {
 

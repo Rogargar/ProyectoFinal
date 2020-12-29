@@ -22,6 +22,12 @@ import com.application.fProject.exceptions.BadRequestException;
 import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.services.MenuService;
 
+/**
+ * Controller for menu entity
+ * 
+ * @author Rocío García
+ *
+ */
 @RestController
 @RequestMapping("/menus")
 public class MenuController {
@@ -33,28 +39,61 @@ public class MenuController {
 		this.menuService = menuService;
 	}
 
+	/**
+	 * Get All menus
+	 * 
+	 * @return List of menus
+	 */
 	@GetMapping
 	public ResponseEntity<List<MenuDto>> findAll() {
 		return ResponseEntity.ok(menuService.findAll());
 	}
 
+	/**
+	 * Get menu by id
+	 * 
+	 * @param id Menu's id
+	 * @return Menu found
+	 * @throws ObjectNotFoundException If menu wasn't found
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<MenuDto> findById(@PathVariable("id") String id) throws ObjectNotFoundException {
 		return ResponseEntity.ok(menuService.findById(id));
 	}
 
+	/**
+	 * Create a menu
+	 * 
+	 * @param menu the menu
+	 * @return Persisted menu
+	 * @throws BadRequestException if the saved recipe not found
+	 */
 	@PostMapping
 	public ResponseEntity<MenuDto> create(@Valid @RequestBody MenuPersistentDto menu)
 			throws BadRequestException, ObjectNotFoundException {
 		return ResponseEntity.ok(menuService.create(menu));
 	}
 
+	/**
+	 * Update a menu
+	 * 
+	 * @param id   Menu's id
+	 * @param user Menu data to update
+	 * @return Persisted menu
+	 * @throws ObjectNotFoundException if the saved recipe not found
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<MenuDto> update(@PathVariable("id") String id, @Valid @RequestBody MenuPersistentDto menu)
 			throws BadRequestException, ObjectNotFoundException {
 		return ResponseEntity.ok(menuService.update(id, menu));
 	}
 
+	/**
+	 * Removes menu from database
+	 * 
+	 * @param id Menu's id
+	 * @throws ObjectNotFoundException if menu wasn't found
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> remove(@PathVariable("id") String id) throws ObjectNotFoundException {
 		menuService.remove(id);

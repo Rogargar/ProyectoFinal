@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.application.fProject.dtos.EmailBody;
 import com.application.fProject.services.EmailService;
 
+/**
+ * Controller for email entity
+ * 
+ * @author Rocío García
+ *
+ */
 @RestController
 @RequestMapping("/email")
 public class EmailController {
@@ -23,6 +29,12 @@ public class EmailController {
 		this.emailService = emailService;
 	}
 
+	/**
+	 * Create a new email 
+	 * 
+	 * @param emailBody Email to create
+	 * @return
+	 */
 	@PostMapping("/send")
 	public ResponseEntity<Boolean> create(@Valid @RequestBody EmailBody emailBody) {
 		return ResponseEntity.ok(emailService.sendEmail(emailBody));

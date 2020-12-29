@@ -22,6 +22,12 @@ import com.application.fProject.exceptions.BadRequestException;
 import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.services.LabelService;
 
+/**
+ * Controller for label entity
+ * 
+ * @author Rocío García
+ *
+ */
 @RestController
 @RequestMapping("/labels")
 public class LabelController {
@@ -32,28 +38,63 @@ public class LabelController {
 		this.labelService = labelService;
 	}
 
+	/**
+	 * Get All labels
+	 * 
+	 * @return List of labels
+	 */
 	@GetMapping
 	public ResponseEntity<List<LabelDto>> findAll() {
 		return ResponseEntity.ok(labelService.findAll());
 	}
-
+	
+	/**
+	 * Get label by id
+	 * 
+	 * @param id Label's id
+	 * @return Label found
+	 * @throws ObjectNotFoundException If label wasn't found
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<LabelDto> findById(@PathVariable("id") String id) throws ObjectNotFoundException {
 		return ResponseEntity.ok(labelService.findById(id));
 	}
 
+	/**
+	 * Create a label 
+	 * 
+	 * @param label the label
+	 * @return Persisted label
+	 * @throws BadRequestException if label name is repeat
+	 */
 	@PostMapping
 	public ResponseEntity<LabelDto> create(@Valid @RequestBody LabelPersistentDto label)
 			throws BadRequestException, ObjectNotFoundException {
 		return ResponseEntity.ok(labelService.create(label));
 	}
 
+	/**
+	 * Update a label
+	 * 
+	 * @param id Label's id
+	 * @param label Label data to update
+	 * @return Persisted label
+	 * @throws BadRequestException if label name is repeat
+	 * @throws ObjectNotFoundException if label wasn't found
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<LabelDto> update(@PathVariable("id") String id,
 			@Valid @RequestBody LabelPersistentDto label) throws BadRequestException, ObjectNotFoundException {
 		return ResponseEntity.ok(labelService.update(id, label));
 	}
 
+
+	/**
+	 * Removes label from database
+	 * 
+	 * @param id Label's id
+	 * @throws ObjectNotFoundException if label wasn't found
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> remove(@PathVariable("id") String id) throws ObjectNotFoundException {
 		labelService.remove(id);

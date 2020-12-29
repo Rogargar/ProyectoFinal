@@ -37,6 +37,12 @@ import com.application.fProject.exceptions.BadRequestException;
 import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.services.RecipeService;
 
+/**
+ * Controller for recipe entity
+ * 
+ * @author Rocío García
+ *
+ */
 @RestController
 @RequestMapping("/recipes")
 public class RecipeController {
@@ -47,49 +53,109 @@ public class RecipeController {
 		this.recipeService = recipeService;
 	}
 
+	/**
+	 * Get All recipes
+	 * 
+	 * @return List of recipes
+	 */
 	@GetMapping
 	public ResponseEntity<List<RecipeDto>> findAll() {
 		return ResponseEntity.ok(recipeService.findAll());
 	}
 
+	/**
+	 * Get All recipes publicated
+	 * 
+	 * @return List of recipes
+	 */
 	@GetMapping("/publicated")
 	public ResponseEntity<List<RecipeDto>> findAllByPublicated() {
 		return ResponseEntity.ok(recipeService.findAllByPublicated());
 	}
-	
+
+	/**
+	 * Get recipe by id
+	 * 
+	 * @param id Recipe's id
+	 * @return Recipe found
+	 * @throws ObjectNotFoundException If recipe wasn't found
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<RecipeDto> findById(@PathVariable("id") String id) throws ObjectNotFoundException {
 		return ResponseEntity.ok(recipeService.findById(id));
 	}
 
+	/**
+	 * Get recipe by label
+	 * 
+	 * @param idLabel the id label
+	 * 
+	 * @return List of Recipes
+	 */
 	@GetMapping("/label/{id}")
 	public ResponseEntity<List<RecipeDto>> findByIdLabel(@PathVariable("id") String id) throws ObjectNotFoundException {
 		return ResponseEntity.ok(recipeService.findByIdLabel(id));
 	}
 
+	/**
+	 * Get recipes by owner
+	 * 
+	 * @param idUser the id owner
+	 * @return List of recipes
+	 */
 	@GetMapping("/owner/{id}")
 	public ResponseEntity<List<RecipeDto>> findByIdOwner(@PathVariable("id") String id) throws ObjectNotFoundException {
 		return ResponseEntity.ok(recipeService.findByOwner(id));
 	}
 
+	/**
+	 * Create a recipe
+	 * 
+	 * @param user the recipe
+	 * @return Persisted recipe
+	 * @throws BadRequestException if the recipe is repeat
+	 */
 	@PostMapping
 	public ResponseEntity<RecipeDto> create(@Valid @RequestBody RecipePersistentDto recipe)
 			throws BadRequestException, ObjectNotFoundException {
 		return ResponseEntity.ok(recipeService.create(recipe));
 	}
 
+	/**
+	 * Update a recipe
+	 * 
+	 * @param id   Recipe's id
+	 * @param user Recipe data to update
+	 * @return Persisted recipe
+	 * @throws ObjectNotFoundException if recipe wasn't found
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<RecipeDto> update(@PathVariable("id") String id,
 			@Valid @RequestBody RecipePersistentDto recipe) throws BadRequestException, ObjectNotFoundException {
 		return ResponseEntity.ok(recipeService.update(id, recipe));
 	}
 
+	/**
+	 * Removes recipe from database
+	 * 
+	 * @param id Recipe's id
+	 * @throws ObjectNotFoundException if recipe wasn't found
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> remove(@PathVariable("id") String id) throws ObjectNotFoundException {
 		recipeService.remove(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	/**
+	 * File new img for recipe
+	 * 
+	 * @param file img
+	 * @param id   the id user
+	 * @return Persisted user
+	 * @throws ObjectNotFoundException if recipe wasn't
+	 * @throws BadRequestException     if router fail
+	 */
 	@PostMapping("/upload")
 	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, @RequestParam("id") String id)
 			throws ObjectNotFoundException, BadRequestException {
@@ -132,11 +198,23 @@ public class RecipeController {
 
 	}
 
+	/**
+	 * Get Last Recipes
+	 * 
+	 * @return List of recipes
+	 */
 	@GetMapping("/day")
 	public ResponseEntity<List<RecipeDto>> findLastRecipes() throws ParseException {
 		return ResponseEntity.ok(recipeService.findLastRecipes());
 	}
 
+	/**
+	 * Get img for recipe
+	 * 
+	 * @param namePicture name of img
+	 * 
+	 * @return the img
+	 */
 	@GetMapping("/uploads/img/{namePicture:.+}")
 	public ResponseEntity<Resource> watchPicture(@PathVariable String namePicture) {
 		Path rutaFile = Paths.get("uploads").resolve(namePicture).toAbsolutePath();

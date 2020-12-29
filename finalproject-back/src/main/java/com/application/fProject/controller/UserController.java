@@ -37,6 +37,12 @@ import com.application.fProject.exceptions.BadRequestException;
 import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.services.UserService;
 
+/**
+ * Controller for user entity
+ * 
+ * @author Rocío García
+ *
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -48,16 +54,35 @@ public class UserController {
 		this.userService = userService;
 	}
 
+	/**
+	 * Get all users
+	 * 
+	 * @return List of users
+	 */
 	@GetMapping
 	public ResponseEntity<List<UserDto>> findAll() {
 		return ResponseEntity.ok(userService.findAll());
 	}
 
+	/**
+	 * Get user by id 
+	 * 
+	 * @param id the id
+	 * @return User found
+	 * @throws ObjectNotFoundException If user wasn't found
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDto> findById(@PathVariable("id") String id) throws ObjectNotFoundException {
 		return ResponseEntity.ok(userService.findById(id));
 	}
 
+	/**
+	 * Confirm email and password
+	 * 
+	 * @param user User find
+	 * @return number: 1 if email and password are true, -1 if email is false, -2 if
+	 *         password is false and email is true
+	 */
 	@PostMapping("/emailPass")
 	@CrossOrigin(origins = "http://localhost:4200")
 	public String trueEmailAndPass(@Valid @RequestBody UserPersistentDto user) {
@@ -65,28 +90,64 @@ public class UserController {
 		return userService.findByEmailAndPass(user);
 	}
 
+	/**
+	 * Find by email
+	 * 
+	 * @param email User's email
+	 * @return User found
+	 */
 	@GetMapping("/email/{email}")
 	public ResponseEntity<UserDto> findEmail(@PathVariable("email") String email) {
 		return ResponseEntity.ok(userService.findByEmail(email));
 	}
-
+	
+	/**
+	 * Creates a new user
+	 * 
+	 * @param user User to create
+	 * @return Persisted user
+	 */
 	@PostMapping
 	public ResponseEntity<UserDto> create(@Valid @RequestBody UserPersistentDto user) throws BadRequestException {
 		return ResponseEntity.ok(userService.create(user));
 	}
 
+	/**
+	 * Update a user
+	 * 
+	 * @param id   User's id
+	 * @param user User data to update
+	 * @return Persisted user
+	 * @throws BadRequestException     if the email is repeat
+	 * @throws ObjectNotFoundException if user wasn't found
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<UserDto> update(@PathVariable("id") String id, @Valid @RequestBody UserPersistentDto user)
 			throws BadRequestException, ObjectNotFoundException {
 		return ResponseEntity.ok(userService.update(id, user));
 	}
 
+	/**
+	 * Removes user from database
+	 * 
+	 * @param id User's id
+	 * @throws ObjectNotFoundException if user wasn't found
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> remove(@PathVariable("id") String id) throws ObjectNotFoundException {
 		userService.remove(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	/**
+	 * File new img for user
+	 * 
+	 * @param file img
+	 * @param id the id user
+	 * @return Persisted user
+	 * @throws ObjectNotFoundException if user wasn't
+	 * @throws BadRequestException if router fail
+	 */
 	@PostMapping("/upload")
 	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, @RequestParam("id") String id)
 			throws ObjectNotFoundException, BadRequestException {
@@ -129,6 +190,13 @@ public class UserController {
 
 	}
 
+	/**
+	 * Get img for user
+	 * 
+	 * @param namePicture name of img
+	 * 
+	 * @return the img
+	 */
 	@GetMapping("/uploads/img/{namePicture:.+}")
 	public ResponseEntity<Resource> watchPicture(@PathVariable String namePicture) {
 		Path rutaFile = Paths.get("userImg").resolve(namePicture).toAbsolutePath();

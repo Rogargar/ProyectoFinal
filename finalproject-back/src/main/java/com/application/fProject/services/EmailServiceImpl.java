@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 
 import com.application.fProject.dtos.EmailBody;
 
+/**
+ * Implementation of Email Service
+ * 
+ * @author Rocío García
+ *
+ */
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -32,6 +38,14 @@ public class EmailServiceImpl implements EmailService {
 		return sendEmailTool(emailBody.getContent(), emailBody.getEmail(), emailBody.getSubject());
 	}
 
+	/**
+	 * Send email
+	 * 
+	 * @param textMessage text of message
+	 * @param email email what send
+	 * @param subject subject
+	 * @return true or false
+	 */
 	private boolean sendEmailTool(String textMessage, String email, String subject) {
 		boolean send = false;
 		MimeMessage message = sender.createMimeMessage();

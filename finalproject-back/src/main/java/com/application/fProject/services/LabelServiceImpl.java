@@ -19,6 +19,12 @@ import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.models.Label;
 import com.application.fProject.repositories.LabelRepository;
 
+/**
+ * Implementation of label Service
+ * 
+ * @author Rocío García
+ *
+ */
 @Service
 public class LabelServiceImpl implements LabelService {
 

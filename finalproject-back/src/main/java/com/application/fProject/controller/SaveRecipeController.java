@@ -22,6 +22,12 @@ import com.application.fProject.exceptions.BadRequestException;
 import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.services.SaveRecipeService;
 
+/**
+ * Controller for saveRecipe entity
+ * 
+ * @author Rocío García
+ *
+ */
 @RestController
 @RequestMapping("/savedRecipes")
 public class SaveRecipeController {
@@ -33,26 +39,60 @@ public class SaveRecipeController {
 		this.saveRecipe = saveRecipe;
 	}
 
+	/**
+	 * Get All saveRecipes
+	 * 
+	 * @return List of saveRecipes
+	 */
 	@GetMapping
 	public ResponseEntity<List<SavedRecipeDto>> findAll() {
 		return ResponseEntity.ok(saveRecipe.findAll());
 	}
 
+	/**
+	 * Get saveRecipe by id
+	 * 
+	 * @param id SaveRecipe's id
+	 * @return SaveRecipe found
+	 * @throws ObjectNotFoundException If saveRecipe wasn't found
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<SavedRecipeDto> findById(@PathVariable("id") String id) throws ObjectNotFoundException {
 		return ResponseEntity.ok(saveRecipe.findById(id));
 	}
 
+	/**
+	 * Get saveRecipe by id User and Id recipe
+	 * 
+	 * @param idUser   user's id
+	 * @param isRecipe recipe's id
+	 * @return User found
+	 * @throws ObjectNotFoundException If saveRecipe wasn't found
+	 */
 	@GetMapping("/user/{id}")
 	public ResponseEntity<List<SavedRecipeDto>> findByUser(@PathVariable("id") String id) {
 		return ResponseEntity.ok(saveRecipe.findByUser(id));
 	}
 
+	/**
+	 * Get SaveRecipe by id User
+	 * 
+	 * @param idUser the id user
+	 * @return List of SaveRecipe
+	 */
 	@GetMapping("/user/{idUser}/recipes/{idRecipe}")
 	public ResponseEntity<SavedRecipeDto> findByUserAndRecipe(@PathVariable("idUser") String idUser,
 			@PathVariable("idRecipe") String idRecipe) throws ObjectNotFoundException {
 		return ResponseEntity.ok(saveRecipe.findByIdRecipeIdUser(idUser, idRecipe));
 	}
+
+	/**
+	 * Create a saveRecipe
+	 * 
+	 * @param sRecipe the saveRecipe
+	 * @return Persisted saveRecipe
+	 * @throws BadRequestException if the saveRecipe is repeat
+	 */
 
 	@PostMapping
 	public ResponseEntity<SavedRecipeDto> create(@Valid @RequestBody SavedRecipePersistentDto sRecipe)
@@ -61,12 +101,27 @@ public class SaveRecipeController {
 		return ResponseEntity.ok(saveRecipe.create(sRecipe));
 	}
 
+	/**
+	 * Update a saveRecipe
+	 * 
+	 * @param id      saveRecipe's id
+	 * @param sRecipe the saveRecipe
+	 * @return Persisted saveRecipe
+	 * @throws BadRequestException     if the saveRecipe is repeat
+	 * @throws ObjectNotFoundException if user and recipe doesn't exist
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<SavedRecipeDto> update(@PathVariable("id") String id,
 			@Valid @RequestBody SavedRecipePersistentDto sRecipe) throws BadRequestException, ObjectNotFoundException {
 		return ResponseEntity.ok(saveRecipe.update(id, sRecipe));
 	}
 
+	/**
+	 * Removes saveRecipe
+	 * 
+	 * @param id saveRecipe's id
+	 * @throws ObjectNotFoundException if saveRecipe wasn't found
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> remove(@PathVariable("id") String id) throws ObjectNotFoundException {
 		saveRecipe.remove(id);

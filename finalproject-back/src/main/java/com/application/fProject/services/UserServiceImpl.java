@@ -22,6 +22,12 @@ import com.application.fProject.exceptions.ObjectNotFoundException;
 import com.application.fProject.models.User;
 import com.application.fProject.repositories.UserRepository;
 
+/**
+ * Implementation of user Service
+ * 
+ * @author Rocío García
+ *
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -60,6 +66,11 @@ public class UserServiceImpl implements UserService {
 		return modelMapper.map(user.get(), UserDto.class);
 	}
 
+	/**
+	 * Encrypt password at md5
+	 * @param input password
+	 * @return encrypt password
+	 */
 	private static String getMD5(String input) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");

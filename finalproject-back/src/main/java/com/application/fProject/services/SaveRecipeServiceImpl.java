@@ -25,6 +25,12 @@ import com.application.fProject.repositories.RecipeRepository;
 import com.application.fProject.repositories.SaveRecipeRepository;
 import com.application.fProject.repositories.UserRepository;
 
+/**
+ * Implementation of save Recipe Service
+ * 
+ * @author Rocío García
+ *
+ */
 @Service
 public class SaveRecipeServiceImpl implements SaveRecipeService {
 
