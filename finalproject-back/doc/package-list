@@ -1,0 +1,7 @@
+com.application.fProject
+com.application.fProject.controller
+com.application.fProject.dtos
+com.application.fProject.exceptions
+com.application.fProject.models
+com.application.fProject.repositories
+com.application.fProject.services

@@ -62,12 +62,10 @@ public class SaveRecipeController {
 	}
 
 	/**
-	 * Get saveRecipe by id User and Id recipe
+	 * Get SaveRecipe by id User
 	 * 
-	 * @param idUser   user's id
-	 * @param isRecipe recipe's id
-	 * @return User found
-	 * @throws ObjectNotFoundException If saveRecipe wasn't found
+	 * @param id  user's id
+	 * @return List of savedRecipes
 	 */
 	@GetMapping("/user/{id}")
 	public ResponseEntity<List<SavedRecipeDto>> findByUser(@PathVariable("id") String id) {
@@ -75,10 +73,12 @@ public class SaveRecipeController {
 	}
 
 	/**
-	 * Get SaveRecipe by id User
+	 *  Get saveRecipe by id User and Id recipe
 	 * 
-	 * @param idUser the id user
-	 * @return List of SaveRecipe
+	 * @param idUser   user's id
+	 * @param isRecipe recipe's id
+	 * @return SavedRecipe
+	 * @throws ObjectNotFoundException If saveRecipe wasn't found
 	 */
 	@GetMapping("/user/{idUser}/recipes/{idRecipe}")
 	public ResponseEntity<SavedRecipeDto> findByUserAndRecipe(@PathVariable("idUser") String idUser,
@@ -86,14 +86,13 @@ public class SaveRecipeController {
 		return ResponseEntity.ok(saveRecipe.findByIdRecipeIdUser(idUser, idRecipe));
 	}
 
-	/**
+	/***
 	 * Create a saveRecipe
 	 * 
 	 * @param sRecipe the saveRecipe
 	 * @return Persisted saveRecipe
 	 * @throws BadRequestException if the saveRecipe is repeat
 	 */
-
 	@PostMapping
 	public ResponseEntity<SavedRecipeDto> create(@Valid @RequestBody SavedRecipePersistentDto sRecipe)
 			throws BadRequestException, ObjectNotFoundException {
